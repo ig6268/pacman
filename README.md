@@ -22,4 +22,4 @@ Just run:
 
 ## License
 
-This game is distributed under the `<to be decided>` license, available in this repository. All contributions are assumed to be also licensed under the same.
+This game is distributed under the `MIT` license, available in this repository. All contributions are assumed to be also licensed under the same.
