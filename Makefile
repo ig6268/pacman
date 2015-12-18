@@ -8,6 +8,8 @@ SRCS		= pacman.c \
 
 OBJS		= $(SRCS:.c=.o)
 
+CFLAGS	= -std=c99 -Wall -Wextra -Werror
+
 RM			= rm -f
 
 all:		$(NAME)
