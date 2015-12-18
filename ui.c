@@ -3,65 +3,65 @@
 #include "ui.h"
 #include "mapa.h"
 
-char desenhofantasma[4][7] = {
+char drawGhost[4][7] = {
     {" .-.  " },
     {"| OO| " },
     {"|   | " },
     {"'^^^' " }
 };
 
-char desenhoparede[4][7] = {
+char drawWall[4][7] = {
     {"......" },
     {"......" },
     {"......" },
     {"......" }
 };
 
-char desenhoheroi[4][7] = {
+char drawHero[4][7] = {
     {" .--. "  },
     {"/ _.-'"  },
     {"\\  '-." },
     {" '--' "  }
 };
 
-char desenhopilula[4][7] = {
+char drawPill[4][7] = {
     {"      "},
     {" .-.  "},
     {" '-'  "},
     {"      "}
 };
 
-char desenhovazio[4][7] = {
+char drawBlankSpace[4][7] = {
     {"      "},
     {"      "},
     {"      "},
     {"      "}
 };
 
-void imprimeParte(char desenho[4][7], int parte){
-	printf("%s", desenho[parte]);
+void printPiece(char draw[4][7], int piece){
+	printf("%s", draw[piece]);
 }
 
-void imprimeMapa(MAPA* m){
-	for(int i = 0; i < m->linhas; i++){
-		for(int parte = 0; parte < 4; parte++){
-			for(int j = 0; j < m->colunas; j++){
-				switch(m->matriz[i][j]){
-					case FANTASMA:
-						imprimeParte(desenhofantasma, parte);
+void printMap(MAP* m){
+	for(int i = 0; i < m->rows; i++){
+		for(int piece = 0; piece < 4; piece++){
+			for(int j = 0; j < m->columns; j++){
+				switch(m->matrix[i][j]){
+					case GHOST:
+						printPiece(drawGhost, piece);
 						break;
 					case HERO:
-						imprimeParte(desenhoheroi, parte);
+						printPiece(drawHero, piece);
 						break;
-					case PILULA:
-						imprimeParte(desenhopilula, parte);
+					case PILL:
+						printPiece(drawPill, piece);
 						break;
-					case PAREDE_VERTICAL:
-					case PAREDE_HORIZONTAL:
-						imprimeParte(desenhoparede, parte);
+					case VERTICAL_WALL:
+					case HORIZONTAL_WALL:
+						printPiece(drawWall, piece);
 						break;
-					case VAZIO:
-						imprimeParte(desenhovazio, parte);
+					case EMPTY:
+						printPiece(drawBlankSpace, piece);
 				}
 			}
 			printf("\n");

@@ -3,49 +3,49 @@
 #include <string.h>
 #include "mapa.h"
 
-int canWalk(MAPA* m, char personagem, int x, int y){
-	return isValid(m, x, y) && !isWall(m, x, y) && !isCharacter(m, personagem, x, y);
+int canWalk(MAP* m, char character, int x, int y){
+	return isValid(m, x, y) && !isWall(m, x, y) && !isCharacter(m, character, x, y);
 }
 
-int isWall(MAPA* m, int x, int y){
-	return m->matriz[x][y] == PAREDE_VERTICAL || m->matriz[x][y] == PAREDE_HORIZONTAL;
+int isWall(MAP* m, int x, int y){
+	return m->matrix[x][y] == VERTICAL_WALL || m->matrix[x][y] == HORIZONTAL_WALL;
 }
 
-int isCharacter(MAPA* m, char personagem, int x, int y){
-	return m->matriz[x][y] == personagem;
+int isCharacter(MAP* m, char character, int x, int y){
+	return m->matrix[x][y] == character;
 }
 
-void copiaMapa(MAPA* destino, MAPA* origem){
-	destino->linhas = origem->linhas;
-	destino->colunas = origem->colunas;
+void copyMap(MAP* destiny, MAP* origin){
+	destiny->rows = origin->rows;
+	destiny->columns = origin->columns;
 
-	alocaMapa(destino);
-	for(int i = 0; i < origem->linhas; i++){
-		strcpy(destino->matriz[i], origem->matriz[i]);
+	allocateMap(destiny);
+	for(int i = 0; i < origin->rows; i++){
+		strcpy(destiny->matrix[i], origin->matrix[i]);
 	}
 }	
 
-void walking(MAPA* m, int xorigem, int yorigem, int xdestino, int ydestino){
-	char personagem = m->matriz[xorigem][yorigem];
-	m->matriz[xdestino][ydestino] = personagem;
-	m->matriz[xorigem][yorigem] = VAZIO;
+void walking(MAP* m, int originX, int originY, int destinyX, int destinyY){
+	char character = m->matrix[originX][originY];
+	m->matrix[destinyX][destinyY] = character;
+	m->matrix[originX][originY] = EMPTY;
 }
 
-int isValid(MAPA* m, int x, int y){
-	if(x >= m->linhas) return 0;
-	if(y >= m->colunas) return 0;
+int isValid(MAP* m, int x, int y){
+	if(x >= m->rows) return 0;
+	if(y >= m->columns) return 0;
 
 	return 1;
 }
 
-int isEmpty(MAPA* m, int x, int y){
-	return m->matriz[x][y] == VAZIO;
+int isEmpty(MAP* m, int x, int y){
+	return m->matrix[x][y] == EMPTY;
 }
 
-int encontraMapa(MAPA* m, POSICAO* p, char c){
-	for(int i = 0; i < m->linhas; i++){
-		for(int j = 0; j < m->colunas; j++){
-			if(m->matriz[i][j] == c){
+int findMap(MAP* m, POSITION* p, char c){
+	for(int i = 0; i < m->rows; i++){
+		for(int j = 0; j < m->columns; j++){
+			if(m->matrix[i][j] == c){
 				p->x = i;
 				p->y = j;
 				return 1;
@@ -55,34 +55,34 @@ int encontraMapa(MAPA* m, POSICAO* p, char c){
 	return 0;
 }
 
-void alocaMapa(MAPA* m){
-	m->matriz = malloc(sizeof(char*) * m->linhas);
-	for(int i = 0; i < m->linhas; i++){
-		m->matriz[i] = malloc(sizeof(char) * (m->colunas + 1));
+void allocateMap(MAP* m){
+	m->matrix = malloc(sizeof(char*) * m->rows);
+	for(int i = 0; i < m->rows; i++){
+		m->matrix[i] = malloc(sizeof(char) * (m->columns + 1));
 	}
 }
 
-void liberaMapa(MAPA* m){
-	for(int i = 0; i < m->linhas; i++){
-		free(m->matriz[i]);
+void freeMap(MAP* m){
+	for(int i = 0; i < m->rows; i++){
+		free(m->matrix[i]);
 	}
-	free(m->matriz);
+	free(m->matrix);
 }
 
-void leMapa(MAPA* m){
+void readMap(MAP* m){
 	FILE* f;
 	f = fopen("mapa.txt", "r");
 	if(f == 0){
-		printf("Erro na leitura do mapa.\n");
+		printf("Error #01: File isn't available.\n");
 		exit(1);
 	}
 
-	fscanf(f, "%d %d", &(m->linhas), &(m->colunas));
+	fscanf(f, "%d %d", &(m->rows), &(m->columns));
 
-	alocaMapa(m);
+	allocateMap(m);
 
 	for(int i = 0; i < 5; i++){
-		fscanf(f, "%s", m->matriz[i]);
+		fscanf(f, "%s", m->matrix[i]);
 	}
 	fclose(f);
 }

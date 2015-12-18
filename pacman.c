@@ -5,24 +5,24 @@
 #include "mapa.h"
 #include "ui.h"
 
-MAPA m;
-POSICAO heroi;
+MAP m;
+POSITION hero;
 int pill = 0;
 
-int moveFantasma(int xatual, int yatual, int* xdestino, int* ydestino){
-	int opcoes[4][2] = {
-		{xatual, yatual + 1},
-		{xatual + 1, yatual},
-		{xatual, yatual - 1},
-		{xatual - 1, yatual}
+int moveGhost(int currentX, int currentY, int* destinyX, int* destinyY){
+	int options[4][2] = {
+		{currentX, currentY + 1},
+		{currentX + 1, currentY},
+		{currentX, currentY - 1},
+		{currentX - 1, currentY}
 	};
 
 	srand(time(0));
 	for(int i = 0; i < 10; i++){
-		int posicao = rand() % 4;
-		if(canWalk(&m, FANTASMA, opcoes[posicao][0], opcoes[posicao][1])){
-			*xdestino = opcoes[posicao][0];
-			*ydestino = opcoes[posicao][1];
+		int position = rand() % 4;
+		if(canWalk(&m, GHOST, options[position][0], options[position][1])){
+			*destinyX = options[position][0];
+			*destinyY = options[position][1];
 
 			return 1;
 		}
@@ -31,113 +31,113 @@ int moveFantasma(int xatual, int yatual, int* xdestino, int* ydestino){
 	return 0;
 }
 
-void fantasmas(){
-	MAPA copia;
+void ghosts(){
+	MAP copy;
 
-	copiaMapa(&copia, &m);
-	for(int i = 0; i < m.linhas; i++){
-		for(int j = 0; j < m.colunas; j++){
-			if(copia.matriz[i][j] == FANTASMA){
+	copyMap(&copy, &m);
+	for(int i = 0; i < m.rows; i++){
+		for(int j = 0; j < m.columns; j++){
+			if(copy.matrix[i][j] == GHOST){
 				
-				int xdestino, ydestino;
-				int encontrou = moveFantasma(i, j, &xdestino, &ydestino);
+				int destinyX, destinyY;
+				int find = moveGhost(i, j, &destinyX, &destinyY);
 
-				if(encontrou){
-					walking(&m, i, j, xdestino, ydestino);
+				if(find){
+					walking(&m, i, j, destinyX, destinyY);
 				}
 			}
 		}
 	}
-	liberaMapa(&copia);
+	freeMap(&copy);
 }
 
-int acabou(){
-	POSICAO pos;
-	int pacman = encontraMapa(&m, &pos, HERO);
-	printf("Perdeu otário\n");
+int end(){
+	POSITION pos;
+	int pacman = findMap(&m, &pos, HERO);
+	printf("You lost!\n");
 	return !pacman;
 }
 
 void explode(){
 	if(!pill) return;
-	explosion(heroi.x, heroi.y, 0, 1, 3);
-	explosion(heroi.x, heroi.y, 0, -1, 3);
-	explosion(heroi.x, heroi.y, 1, 0, 3);
-	explosion(heroi.x, heroi.y, -1, 0, 3);
+	explosion(hero.x, hero.y, 0, 1, 3);
+	explosion(hero.x, hero.y, 0, -1, 3);
+	explosion(hero.x, hero.y, 1, 0, 3);
+	explosion(hero.x, hero.y, -1, 0, 3);
 
 	pill = 0;
 }
 
-void explosion(int x, int y, int somax, int somay, int qtd){
+void explosion(int x, int y, int sumX, int sumY, int qtd){
 	
 	if(qtd == 0) return;
 
-	int novox = x + somax;
-	int novoy = y + somay;
+	int newX = x + sumX;
+	int newY = y + sumY;
 
-	if(!isValid(&m, novox, novoy)) return;
-	if(isWall(&m, novox, novoy)) return;
-	m.matriz[novox][novoy] = VAZIO;
-	explosion(novox, novoy, somax, somay, qtd - 1);	
+	if(!isValid(&m, newX, newY)) return;
+	if(isWall(&m, newX, newY)) return;
+	m.matrix[newX][newY] = EMPTY;
+	explosion(newX, newY, sumX, sumY, qtd - 1);	
 }
 
-int isDirecao(char direcao){
-	return direcao == 'a' ||
-		direcao == 'w' ||
-		direcao == 's' ||
-		direcao == 'd';
+int isDirection(char direction){
+	return direction == 'a' ||
+		direction == 'w' ||
+		direction == 's' ||
+		direction == 'd';
 }
 
-void move(char direcao){
+void move(char direction){
 	
-	if(!isDirecao(direcao))
+	if(!isDirection(direction))
 		return;
 
-	int proximoX = heroi.x;
-	int proximoY = heroi.y;
+	int nextX = hero.x;
+	int nextY = hero.y;
 
-	switch(direcao){
-		case ESQUERDA: 
-			proximoY--;
+	switch(direction){
+		case LEFT: 
+			nextY--;
 			break;
-		case CIMA:
-			proximoX--;
+		case UP:
+			nextX--;
 			break;
-		case BAIXO:
-			proximoX++;
+		case DOWN:
+			nextX++;
 			break;
-		case DIREITA:
-			proximoY++;
+		case RIGHT:
+			nextY++;
 			break;
 	}
 
-	if(!canWalk(&m, HERO, proximoX, proximoY)) return;
+	if(!canWalk(&m, HERO, nextX, nextY)) return;
 
-	if(isCharacter(&m, PILULA, proximoX, proximoY)){
+	if(isCharacter(&m, PILL, nextX, nextY)){
 		pill = 1;
 
 	}
 
-	walking(&m, heroi.x, heroi.y, proximoX, proximoY);
-	heroi.x = proximoX;
-	heroi.y = proximoY;
+	walking(&m, hero.x, hero.y, nextX, nextY);
+	hero.x = nextX;
+	hero.y = nextY;
 }
 
 int main(){
 
-	leMapa(&m);
-	encontraMapa(&m, &heroi, HERO);
+	readMap(&m);
+	findMap(&m, &hero, HERO);
 
 	do {
 
 		system("clear");
 		printf("Pills: %d\n", pill);
-		imprimeMapa(&m);
-		char comando;
-		scanf("%c", &comando);
-		move(comando);
-		if(comando == BOMBA) explode();
-		fantasmas();
-	} while (!acabou());
-	liberaMapa(&m);
+		printMap(&m);
+		char command;
+		scanf("%c", &command);
+		move(command);
+		if(command == BOMB) explode();
+		ghosts();
+	} while (!end());
+	freeMap(&m);
 }

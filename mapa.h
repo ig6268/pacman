@@ -1,32 +1,32 @@
 #ifndef _MAPA_H_
 #define _MAPA_H_
 #define HERO '@'
-#define FANTASMA 'F'
-#define VAZIO '.'
-#define PAREDE_VERTICAL '|'
-#define PAREDE_HORIZONTAL '-'
-#define PILULA 'P'
+#define GHOST 'F'
+#define EMPTY '.'
+#define VERTICAL_WALL '|'
+#define HORIZONTAL_WALL '-'
+#define PILL 'P'
 
-struct mapa{
-	char** matriz;
-	int linhas, colunas;
+struct map{
+	char** matrix;
+	int rows, columns;
 };
-typedef struct mapa MAPA;
+typedef struct map MAP;
 
-struct posicao{
+struct position{
 	int x, y;
 }; 
-typedef struct posicao POSICAO;
+typedef struct position POSITION;
 
-int encontraMapa(MAPA* m, POSICAO* p, char c);
-void alocaMapa(MAPA* m);
-void liberaMapa(MAPA* m);
-void leMapa(MAPA* m);
-int isValid(MAPA* m, int x, int y);
-int isEmpty(MAPA* m, int x, int y);
-void walking(MAPA* m, int xorigem, int yorigem, int xdestino, int ydestino);
-void copiaMapa(MAPA* destino, MAPA* origem);
-int canWalk(MAPA* m, char personagem, int x, int y);
-int isCharacter(MAPA* m, char personagem, int x, int y);
-int isWall(MAPA* m, int x, int y);
+int findMap(MAP* m, POSITION* p, char c);
+void allocateMap(MAP* m);
+void freeMap(MAP* m);
+void readMap(MAP* m);
+int isValid(MAP* m, int x, int y);
+int isEmpty(MAP* m, int x, int y);
+void walking(MAP* m, int originX, int originY, int destinyX, int destinyY);
+void copyMap(MAP* destiny, MAP* origin);
+int canWalk(MAP* m, char character, int x, int y);
+int isCharacter(MAP* m, char character, int x, int y);
+int isWall(MAP* m, int x, int y);
 #endif
