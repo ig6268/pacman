@@ -140,4 +140,5 @@ int main(){
 		ghosts();
 	} while (!end());
 	freeMap(&m);
+  return 0;
 }

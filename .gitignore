@@ -14,10 +14,14 @@
 
 # Libraries
 
+*.o
 *.lib
 *.a
 *.la
 *.lo
+
+# Tmp files
+*~
 
 # Debug files
 
