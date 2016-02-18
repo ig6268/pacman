@@ -10,7 +10,7 @@ Just run:
 
 `gcc -std=c99 pacman.c mapa.c ui.c -o pacman.out`
 
-> **Note:** I made this game in C as a *C99* extension - this is the why you need to use the `-std=c99` flag to build.
+> **Note:** I made this game in C as a *C99* extension - this is the reason you need to use the `-std=c99` flag to build.
 
 ## Contributing
 
