@@ -1,4 +1,5 @@
 \documentclass{article}
+\usepackage{graphicx}
 \usepackage{kotex}
 
 
@@ -12,13 +13,17 @@
 
 
 \newpage
-\textbf{목차}\\\\
+\begin{huge}\begin{center}\textbf{목차\\}\end{center}\end{huge}
+
 \begin{enumerate}
-\item 오픈 소스 SW 선택의 이유 및 개요 \\
-\item 선택한 오픈 소스 SW 실행 방법 \\
-\item 오픈 소스 SW 사용 설명서\\
-\item 기능 향상을 위한 제안\\
-\item 느낀점
+
+\item 오픈 소스 SW 선택의 이유 및 개요
+\item 선택한 오픈 소스 SW 실행 방법
+ \item 오픈 소스 SW 사용 설명서
+\item 기능 향상을 위한 제안
+ \item 느낀점 
+
+
 \end{enumerate}
 
 \newpage
@@ -44,7 +49,7 @@
 - 본격적으로 사용 설명서 및 선택 이유 작성 시작\\
 
 \flushleft
-\textbf{1. - 오픈소스 선택 이유 -}
+\begin{large}\textbf{1. - 오픈소스 선택 이유 -}\end{large}
 \begin{itemize}
 
 \item 첫 번째로 여러가지 오픈 소스 범주 중 게임을 선택한 이유는 플래시 게임, 온라인 게임, 모바일 게임까지 한번쯤은 다 접해봤기 때문에 쉽게 접근 할 수 있을거라고 생각을 해서 게임을 선택했습니다. 또한 설명서를 작성하면서 잠깐이나마 즐기면서 작성할 수 있다는 점을 고려해 최종적으로 게임을 선택하였습니다.\\
@@ -54,7 +59,7 @@
 \end{itemize}
 
 \newpage
-\textbf{2. - 오픈 소스 SW 실행 방법 (ubuntu) -}
+\begin{large}\textbf{2. - 오픈 소스 SW 실행 방법 (ubuntu) -}\end{large}
 \begin{enumerate}
 \item Oracle VM Virtual Machine을 실행합니다. \\
 설치 : http://pentode.tistory.com/79\\
@@ -71,21 +76,44 @@ The program 'pacman' is currently not installed. You can install it by typing: s
 \end{enumerate}
 
 \newpage
-\textbf{3. - 오픈 소스 SW 사용 설명서 -}
+\begin{large}\textbf{3. - 오픈 소스 SW 사용 설명서 -}\end{large}
 \begin{itemize}
-\item pacman 또는 packman.out으로 만들어진 파일을 실행시킨다.(실행시 첫 시작화면)
+\item pacman 또는 packman.out으로 만들어진 파일을 실행시킨다.
+\begin{figure}[!h]
+\centering
+\includegraphics[width=1\columnwidth]{start}
+\caption{start-pacman}%
+\end{figure}
 \item 조작법 : 키보드의 ↑(위), ↓(아래), →(오른쪽), ←(왼쪽) 버튼을 이용한다.
 \item 시작은 맵의 중하단부의 노란색 팩맨으로 부터 시작하며 유령을 피해 도망다녀야 합니다.
 \item 유령은 빨간색, 주황색, 자주색, 분홍색 총 4마리로 잡히면 목숨이 1개 줄어듭니다.
 \item 목숨은 시작시 총 3개로 시작하며 유령에 부딪혀 죽을때마다 1씩 감소하고 0이될시 게임오버가 됩니다.
 \item 방향키를 이용 유령을 피해 돌아다니면서 노란색으로 된 작은 점을 제한시간(bonus)동안 최대한 많이 먹어야합니다. 점하나당 +10점
 \item 맵의 4방향 끝에 위치한 노란색 큰점을 먹으면 Supertime을 가지게 됩니다.
+\newpage
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=1\columnwidth]{supertime}
+\caption{supertime}%
+\end{figure}
+
 \item Supertime은 약 7초로 팩맨의 이동속도가 빨라지고 회색으로 변한 유령들을 잡아먹을 수 있으며 잡을시 유령은 가운데의 감옥으로 들어갑니다. 유령당 +100점
 \item 잡아먹은 유령은 잡힌 시점부터 약 7초 후 다시 탈출합니다.
 \item 유령들을 피해 노란점들을 전부다 먹으면 라운드가 클리어 되고 즉시 똑같은 맵으로 된 다음 라운드가 시작됩니다.
 \item 점수는 클리어했을때 이어지며 Hiscore에 점수가 기록되고 Level이 1에서\\ 2로 증가합니다.
 \item 목숨 내에 가장 높은 점수를 기록한 사람이 이기게 됩니다.
 \end{itemize}
+
+\newpage
+
+\begin{large}\textbf{4. - 기능 향상을 위한 제안 -}\end{large}
+\begin{enumerate}
+\item 처음 팩맨을 실행 했을 때 시작 버튼이 따로 없이 바로 시작되는 점이 아쉽습니다.
+\item 게임 중 일시 정지 버튼 or 키가 없는게 불편했습니다.
+\item 게임의 진행속도가 조금 빨라서 방향키를 조작하는데 어려움이 있습니다.\\ 속도를 줄이면 더 원할한 플레이가 가능할것 같습니다.
+\item 목숨의 갯수 경우에도 숫자가 아닌 이미지를 통해서 보여지면 더 좋을것 같습니다.
+\end{enumerate}
 
 
 \end{document}
